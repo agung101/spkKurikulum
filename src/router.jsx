@@ -6,7 +6,7 @@ import Register from './pages/Register'
 import Pages from './pages'
 import Home from './pages/Home'
 import AlternativeCriteria from './pages/AlternativeCriteria'
-import Count from './pages/Count'
+import Spk from './pages/Spk'
 import CalculationResult from './pages/CalculationResult'
 
 const router = () => {
@@ -18,7 +18,7 @@ const router = () => {
         <Route path="/" element={<Pages />} >
           <Route index element={<Home />} />
           <Route path="criteria" element={<AlternativeCriteria />} />
-          <Route path="count" element={<Count />} />
+          <Route path="spk" element={<Spk />} />
           <Route path="result" element={<CalculationResult />} />
         </Route>
       </Routes>

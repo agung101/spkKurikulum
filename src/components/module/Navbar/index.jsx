@@ -20,8 +20,8 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav gap-3">
             <a className={'nav-link fs-5 fw-semibold '+ ((path === '/') && 'active')} href="/">Home</a>
-            <a className={'nav-link fs-5 fw-semibold '+ ((path === '/count') && 'active')} href="/count">SPK</a>
             <a className={'nav-link fs-5 fw-semibold '+ ((path === '/criteria') && 'active')} href="/criteria">Kriteria</a>
+            <a className={'nav-link fs-5 fw-semibold '+ ((path === '/spk') && 'active')} href="/spk">SPK</a>
           </div>
         </div>
       </div>

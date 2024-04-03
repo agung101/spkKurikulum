@@ -1,13 +1,11 @@
-// import React from 'react'
 import { alternative, criteria } from './data'
 
 const AlternativeCriteria = () => {
-  console.log(criteria)
   return (
     <main>
       <div className="d-flex gap-4 p-4">
         <div style={{ width: '40%' }}>
-          <div className='border p-3'>
+          <div className='border p-3 mb-4'>
             <h3 className='mb-3'>Alternatif</h3>
             <div className='mb-3'>
               {
@@ -25,12 +23,22 @@ const AlternativeCriteria = () => {
                 ))
               }
             </div>
-            <button type="button" className="btn btn-primary btn-sm ms-4 mb-1">Tambah</button>
+            <div className='d-flex justify-content-between'>
+              <button type="button" className="btn btn-primary btn-sm ms-4 mb-1">Simpan Perubahan</button>
+              <button type="button" className="btn btn-success btn-sm mb-1">Tambah</button>
+            </div>
+          </div>
+
+          <div className='border p-3'>
+            <h3 className='mb-3'>Keterangan</h3>
+            <p>Alternatif adalah objek-objek yang berbeda dan memiliki kesempatan yang sama untuk dipilih oleh pengambil keputusan.</p>
+            <p>Kriteria adalah ukuran yang menjadi dasar penilaian atau penetapan sesuatu.</p>
+            <p>Bobot relatif mencerminkan tingkat kepentingan dalam keputusan. Pastikan total bobot semua kriteria sama dengan 100%.</p>
           </div>
         </div>
         <div style={{ width: '60%' }}>
           <div className='border p-3'>
-            <h3 className='mb-3'>Kriteria & Presentase Bobot Awal</h3>
+            <h3 className='mb-3'>Kriteria & Bobot Relatif</h3>
             <div className='mb-3'>
               {
                 criteria.map((item, index) => (
@@ -52,9 +60,10 @@ const AlternativeCriteria = () => {
               }
             </div>
             <div className='d-flex justify-content-between'>
-              <button type="button" className="btn btn-primary btn-sm ms-4">Tambah</button>
-              <div className='d-flex gap-2 align-items-center'>
-                <p className='mb-0'>Total Bobot Awal: 100 %</p>
+              <button type="button" className="btn btn-primary btn-sm ms-4">Simpan Perubahan</button>
+              <div className='d-flex gap-4 align-items-center'>
+                <p className='mb-0'>Total : 100 %</p>
+                <button type="button" className="btn btn-success btn-sm">Tambah</button>
               </div>
             </div>
           </div>
