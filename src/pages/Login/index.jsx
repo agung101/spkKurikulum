@@ -18,7 +18,7 @@ const Login = () => {
         </div>
         <form onSubmit={submitLogin} className="w-100 mt-4 px-5 pb-4 d-flex flex-column align-items-center border-bottom">
           <input type="email" className="form-control bg-secondary-subtle mb-3" placeholder="Email"/>
-          <input type="password" className="form-control bg-secondary-subtle mb-3" placeholder="Password"/>
+          <input type="password" className="form-control bg-secondary-subtle mb-3" placeholder="Kata Sandi"/>
           <button type="submit" className="btn btn-primary w-50">Masuk</button>
         </form>
         <div className='d-flex mt-3 mb-5 gap-2'>

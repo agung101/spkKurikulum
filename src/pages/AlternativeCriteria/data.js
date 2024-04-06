@@ -69,14 +69,45 @@ const alternative = [
   'Kurikulum Merdeka'
 ]
 
-const criteria = [
-  'Informasi mengenai alternatif',
-  'Terlibat dalam diskusi terkait implementasi alternatif',
-  'Rancangan Perangkat Pengajar (RPP)',
-  'Alur dan Tujuan Pembelajaran (ATP)',
-  'Capaian Pembelajaran (CP)',
-  'Analisis Alokasi Waktu',
-  'Program Semester (Promes)'
+// const criteria = [
+//   'Informasi mengenai alternatif',
+//   'Terlibat dalam diskusi terkait implementasi alternatif',
+//   'Rancangan Perangkat Pengajar (RPP)',
+//   'Alur dan Tujuan Pembelajaran (ATP)',
+//   'Capaian Pembelajaran (CP)',
+//   'Analisis Alokasi Waktu',
+//   'Program Semester (Promes)'
+// ]
+
+const criteriaData = [
+  {
+    criteria: 'Informasi mengenai alternatif',
+    weight: 20
+  },
+  {
+    criteria: 'Terlibat dalam diskusi terkait implementasi alternatif',
+    weight: 20
+  },
+  {
+    criteria: 'Rancangan Perangkat Pengajar (RPP)',
+    weight: 10
+  },
+  {
+    criteria: 'Alur dan Tujuan Pembelajaran (ATP)',
+    weight: 10
+  },
+  {
+    criteria: 'Capaian Pembelajaran (CP)',
+    weight: 20
+  },
+  {
+    criteria: 'Analisis Alokasi Waktu',
+    weight: 10
+  },
+  {
+    criteria: 'Program Semester (Promes)',
+    weight: 10
+  },
 ]
 
-export { alternative, criteria }
+export { alternative, criteriaData }

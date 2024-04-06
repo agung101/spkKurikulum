@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Navbar = () => {
   const location = useLocation()
@@ -19,9 +19,9 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav gap-3">
-            <a className={'nav-link fs-5 fw-semibold '+ ((path === '/') && 'active')} href="/">Home</a>
-            <a className={'nav-link fs-5 fw-semibold '+ ((path === '/criteria') && 'active')} href="/criteria">Kriteria</a>
-            <a className={'nav-link fs-5 fw-semibold '+ ((path === '/spk') && 'active')} href="/spk">SPK</a>
+            <Link to="/" className={'nav-link fs-5 fw-semibold '+ ((path === '/') && 'active')}>Home</Link>
+            <Link to="/criteria" className={'nav-link fs-5 fw-semibold '+ ((path === '/criteria') && 'active')}>Kriteria</Link>
+            <Link to="/spk" className={'nav-link fs-5 fw-semibold '+ ((path === '/spk') && 'active')}>SPK</Link>
           </div>
         </div>
       </div>
