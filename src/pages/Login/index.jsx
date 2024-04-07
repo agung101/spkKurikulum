@@ -1,11 +1,32 @@
 import { Link, useNavigate } from 'react-router-dom'
+import api from '../../config/api'
+import Swal from 'sweetalert2'
 
 const Login = () => {
   const navigate = useNavigate()
 
-  const submitLogin = (e) => {
+  const submitLogin = async (e) => {
     e.preventDefault()
-    navigate('/')
+    const data = {
+      email: e.target.email.value,
+      password: e.target.password.value
+    }
+
+    try {
+      const res = await api.post('/user/login', data)
+      localStorage.setItem('token', res.data.data.token)
+      Swal.fire({
+        icon: 'success',
+        title: 'Masuk Sukses',
+      })
+      navigate('/')
+    } catch(err) {
+      Swal.fire({
+        icon: 'error',
+        // title: "Masuk Gagal",
+        text: 'Email atau sandi salah',
+      })
+    }    
   }
 
   return (
@@ -17,8 +38,8 @@ const Login = () => {
           <p className="fs-6 fw-semibold mb-0 py-2 px-5 text-center">Silahkan masuk untuk menyimpan pengaturan alternatif dan kriteria.</p>
         </div>
         <form onSubmit={submitLogin} className="w-100 mt-4 px-5 pb-4 d-flex flex-column align-items-center border-bottom">
-          <input type="email" className="form-control bg-secondary-subtle mb-3" placeholder="Email"/>
-          <input type="password" className="form-control bg-secondary-subtle mb-3" placeholder="Kata Sandi"/>
+          <input type="email" name="email" className="form-control bg-secondary-subtle mb-3" placeholder="Email" required/>
+          <input type="password" name="password" className="form-control bg-secondary-subtle mb-3" placeholder="Kata Sandi" required/>
           <button type="submit" className="btn btn-primary w-50">Masuk</button>
         </form>
         <div className='d-flex mt-3 mb-5 gap-2'>
