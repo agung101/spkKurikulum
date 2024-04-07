@@ -1,4 +1,4 @@
-import { alternative, criteriaData } from './data.js'
+import { alternative, criteriaData } from './data'
 import { useEffect, useState } from 'react'
 
 const AlternativeCriteria = () => {
