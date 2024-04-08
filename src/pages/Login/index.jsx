@@ -12,8 +12,8 @@ const Login = () => {
       password: e.target.password.value
     }
 
-    try {
-      const res = await api.post('/user/login', data)
+    try {      
+      const res = await api.post('/user/login', data)      
       localStorage.setItem('token', res.data.data.token)
       Swal.fire({
         icon: 'success',

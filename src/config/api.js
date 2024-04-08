@@ -11,7 +11,7 @@ api.interceptors.request.use(function (config) {
     const decoded = jwtDecode(token)
     if (Date.now() <= decoded.exp* 1000)    
       config.headers = {
-        Authorization: `${token}`
+        Authorization: `Bearer ${token}`
       }
   }
   return config
