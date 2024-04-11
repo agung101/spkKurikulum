@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../../config/api'
 import Swal from 'sweetalert2'
+import AddModal from './Alternative/addModal'
 
 const Alternative = () => {
   const [alternative, setAlternative] = useState([])
@@ -13,6 +14,22 @@ const Alternative = () => {
       Swal.fire({
         icon: 'error',
         text: 'Gagal mendapatkan data alternatif'
+      })
+    }
+  }
+
+  const deleteAlternative = async (id) => {
+    try {
+      await api.delete('/alternative/'+id)
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil menghapus alternatif'
+      })
+      getAlternative()
+    } catch(err) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Gagal menghapus alternatif'
       })
     }
   }
@@ -33,8 +50,12 @@ const Alternative = () => {
                 <div className={`w-100 d-flex justify-content-between align-items-center py-1 border-bottom ${index==0 && 'border-top'}`}>
                   <p className='mb-0'>{item.title}</p>
                   <div className='d-flex gap-1'>
-                    <button type="button" className="btn py-0 px-1"><i className="bi bi-pencil-square text-warning fs-5"></i></button>
-                    <button type="button" className="btn py-0 px-1"><i className="bi bi-x-square text-danger fs-5"></i></button>
+                    <button type="button" className="btn py-0 px-1">
+                      <i className="bi bi-pencil-square text-warning fs-5"></i>
+                    </button>
+                    <button type="button" className="btn py-0 px-1" onClick={() => deleteAlternative(item.id)}>
+                      <i className="bi bi-x-square text-danger fs-5"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -42,7 +63,7 @@ const Alternative = () => {
           }
         </div>
         <div className='d-flex justify-content-end'>
-          <button type="button" className="btn btn-success btn-sm mb-1">Tambah</button>
+          <button type="button" className="btn btn-success btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</button>
         </div>
       </div>
 
@@ -52,6 +73,8 @@ const Alternative = () => {
         <p>Kriteria adalah ukuran yang menjadi dasar penilaian atau penetapan sesuatu.</p>
         <p>Bobot relatif mencerminkan tingkat kepentingan dalam keputusan. Pastikan total bobot semua kriteria sama dengan 100%.</p>
       </div>
+
+      <AddModal func={getAlternative} />
     </div>
   )
 }
