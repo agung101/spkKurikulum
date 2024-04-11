@@ -1,5 +1,5 @@
-import Alternative from '../../components/template/Criteria/alternative'
-import Criteria from '../../components/template/Criteria/criteria'
+import Alternative from '../../components/template/Criteria/Alternative'
+import Criteria from '../../components/template/Criteria/Criteria'
 
 const AlternativeCriteria = () => {
   return (

@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import api from '../../config/api'
+import axios from 'axios'
 import Swal from 'sweetalert2'
 
 const Login = () => {
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
   const submitLogin = async (e) => {
     e.preventDefault()
@@ -11,9 +13,12 @@ const Login = () => {
       email: e.target.email.value,
       password: e.target.password.value
     }
+    const env = import.meta.env.VITE_API_URL
 
-    try {      
-      const res = await api.post('/user/login', data)      
+    try {
+      setIsLoading(true)
+      const res = await axios.post(env+'/user/login', data)
+      setIsLoading(false)   
       localStorage.setItem('token', res.data.data.token)
       Swal.fire({
         icon: 'success',
@@ -21,9 +26,9 @@ const Login = () => {
       })
       navigate('/')
     } catch(err) {
+      setIsLoading(false)
       Swal.fire({
         icon: 'error',
-        // title: "Masuk Gagal",
         text: 'Email atau sandi salah',
       })
     }    
@@ -40,7 +45,7 @@ const Login = () => {
         <form onSubmit={submitLogin} className="w-100 mt-4 px-5 pb-4 d-flex flex-column align-items-center border-bottom">
           <input type="email" name="email" className="form-control bg-secondary-subtle mb-3" placeholder="Email" required/>
           <input type="password" name="password" className="form-control bg-secondary-subtle mb-3" placeholder="Kata Sandi" required/>
-          <button type="submit" className="btn btn-primary w-50">Masuk</button>
+          <button type="submit" className="btn btn-primary w-50" disabled={isLoading}>{isLoading ? 'Proses' : 'Masuk'}</button>
         </form>
         <div className='d-flex mt-3 mb-5 gap-2'>
           <p className='fs-6 mb-0 fw-semibold'>Belum punya akun?</p>

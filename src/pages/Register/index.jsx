@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import api from '../../config/api'
+import axios from 'axios'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -20,17 +20,18 @@ const Register = () => {
       email: e.target.email.value,
       password
     }
+    const env = import.meta.env.VITE_API_URL
     
     try {
       Swal.fire({
         title: 'Tunggu Sebentar !',
-        html: 'Sedang proses daftar akun',// add html attribute if you want or remove
+        html: 'Sedang proses daftar akun',
         allowOutsideClick: false,
         onBeforeOpen: () => {
           Swal.showLoading()
         },
       })
-      await api.post('/user/register', data)
+      await axios.post(env+'/user/register', data)
       Swal.close()
       Swal.fire({
         icon: 'success',
@@ -42,8 +43,7 @@ const Register = () => {
         return Swal.fire({
           icon: 'error',
           text: 'Email sudah dipakai, silahkan isi email lain'
-        })
-      
+        })      
       Swal.fire({
         icon: 'error',
         text: err.message

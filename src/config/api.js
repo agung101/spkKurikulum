@@ -10,9 +10,9 @@ api.interceptors.request.use(function (config) {
   if (token) {
     const decoded = jwtDecode(token)
     if (Date.now() <= decoded.exp* 1000)    
-      config.headers = {
-        Authorization: `Bearer ${token}`
-      }
+      config.headers = { Authorization: `Bearer ${token}` }
+    else 
+      return Promise.reject(new Error('Token expired'))
   }
   return config
 }, function (error) {

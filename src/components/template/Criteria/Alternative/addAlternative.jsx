@@ -2,10 +2,11 @@ import api from '../../../../config/api'
 import Swal from 'sweetalert2'
 import PropTypes from 'prop-types'
 
-const AddModal = ({ func }) => {
+const AddAlternative = ({ func }) => {
   const submitAlternative = async (e) => {
     e.preventDefault()
-    const data = { title: e.target.addAlternative.value }
+    const data = { title: e.target.alternative.value }
+    console.log(data)
     try {
       await api.post('/alternative', data)
       Swal.fire({
@@ -22,7 +23,7 @@ const AddModal = ({ func }) => {
   }
 
   return (
-    <div className="modal fade" id="addModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal fade" id="addAlternative" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog">
         <form onSubmit={submitAlternative} className="modal-content">
           <div className="modal-header">
@@ -30,7 +31,7 @@ const AddModal = ({ func }) => {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
-            <input type='text' name='addAlternative' className="form-control" placeholder="Nama Alternatif" />
+            <input type='text' name='alternative' className="form-control" placeholder="Nama Alternatif" />
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -42,8 +43,8 @@ const AddModal = ({ func }) => {
   )
 }
 
-AddModal.propTypes = {
+AddAlternative.propTypes = {
   func: PropTypes.func
 }
 
-export default AddModal
+export default AddAlternative

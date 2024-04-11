@@ -1,37 +1,57 @@
 import { useEffect, useState } from 'react'
-import api from '../../../config/api'
+import api from '../../../../config/api'
 import Swal from 'sweetalert2'
-import AddModal from './Alternative/addModal'
+import AddAlternative from './addAlternative'
+import { useNavigate } from 'react-router-dom'
 
 const Alternative = () => {
   const [alternative, setAlternative] = useState([])
+  const navigate = useNavigate()
 
   const getAlternative = async () => {
     try {
       const result = await api.get('/alternative')
       setAlternative(result.data.data)
     } catch(err) {
-      Swal.fire({
-        icon: 'error',
-        text: 'Gagal mendapatkan data alternatif'
-      })
+      if (err.message === 'Token expired') 
+        navigate('/login')
+      else
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal mendapatkan data alternatif'
+        })
     }
   }
 
   const deleteAlternative = async (id) => {
-    try {
-      await api.delete('/alternative/'+id)
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil menghapus alternatif'
-      })
-      getAlternative()
-    } catch(err) {
-      Swal.fire({
-        icon: 'error',
-        text: 'Gagal menghapus alternatif'
-      })
-    }
+    const confirmed = await Swal.fire({
+      title: 'Yakin ingin menghapus',
+      icon: 'question',
+      confirmButtonText: '<span style="margin: 0 10px">Ya</span>',
+      confirmButtonColor: '#3085d6',
+      showCancelButton: true,
+      cancelButtonText: 'Tidak',
+      cancelButtonColor: '#d33',
+      reverseButtons: true,
+    }).then((result) => {
+      return result.isConfirmed
+    })
+
+    if (confirmed) {
+      try {
+        await api.delete('/alternative/'+id)
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil menghapus alternatif'
+        })
+        getAlternative()
+      } catch(err) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal menghapus alternatif'
+        })
+      }
+    }    
   }
 
   useEffect(() => {
@@ -63,7 +83,7 @@ const Alternative = () => {
           }
         </div>
         <div className='d-flex justify-content-end'>
-          <button type="button" className="btn btn-success btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#addModal">Tambah</button>
+          <button type="button" className="btn btn-success btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#addAlternative">Tambah</button>
         </div>
       </div>
 
@@ -74,7 +94,7 @@ const Alternative = () => {
         <p>Bobot relatif mencerminkan tingkat kepentingan dalam keputusan. Pastikan total bobot semua kriteria sama dengan 100%.</p>
       </div>
 
-      <AddModal func={getAlternative} />
+      <AddAlternative func={getAlternative} />
     </div>
   )
 }

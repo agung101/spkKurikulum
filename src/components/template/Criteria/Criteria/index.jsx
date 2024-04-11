@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
-import api from '../../../config/api'
+import api from '../../../../config/api'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const Criteria = () => {
   const [criteria, setCriteria] = useState([])
   const [weight, setWeight] = useState([])
   const [total, setTotal] = useState(0)
+  const navigate = useNavigate()
 
   const getCriteria = async () => {
     try {
       const result = await api.get('/criteria')
       setCriteria(result.data.data)
     } catch(err) {
-      Swal.fire({
-        icon: 'error',
-        text: 'Gagal mendapatkan data kriteria'
-      })
+      if (err.message === 'Token expired') 
+        navigate('/login')
+      else
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal mendapatkan data kriteria'
+        })
     }
   }
 
