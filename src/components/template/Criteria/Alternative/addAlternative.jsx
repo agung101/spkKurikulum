@@ -6,7 +6,6 @@ const AddAlternative = ({ func }) => {
   const submitAlternative = async (e) => {
     e.preventDefault()
     const data = { title: e.target.alternative.value }
-    console.log(data)
     try {
       await api.post('/alternative', data)
       Swal.fire({

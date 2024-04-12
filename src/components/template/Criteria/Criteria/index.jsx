@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import api from '../../../../config/api'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import AddCriteria from './addCriteria'
 
 const Criteria = () => {
   const [criteria, setCriteria] = useState([])
@@ -44,9 +45,39 @@ const Criteria = () => {
     getTotal(newWeight)
   }
 
+  const deleteAlternative = async (id) => {
+    const confirmed = await Swal.fire({
+      title: 'Yakin ingin menghapus',
+      icon: 'question',
+      confirmButtonText: '<span style="margin: 0 10px">Ya</span>',
+      confirmButtonColor: '#3085d6',
+      showCancelButton: true,
+      cancelButtonText: 'Tidak',
+      cancelButtonColor: '#d33',
+      reverseButtons: true,
+    }).then((result) => {
+      return result.isConfirmed
+    })
+
+    if (confirmed) {
+      try {
+        await api.delete('/criteria/'+id)
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil menghapus criteria'
+        })
+        getCriteria()
+      } catch(err) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal menghapus criteria'
+        })
+      }
+    }    
+  }
+
   useEffect(() => {
-    (criteria.length===0) ? getCriteria() : getWeight()
-    
+    (criteria.length===0) ? getCriteria() : getWeight()    
   },[criteria])
   
   return (
@@ -66,8 +97,12 @@ const Criteria = () => {
                         defaultValue={item.weight} name={'weight'+index} onChange={changeWeight} />
                       <span className="input-group-text" id="num">%</span>
                     </div>
-                    <button type="button" className="btn py-0 px-1"><i className="bi bi-pencil-square text-warning fs-5"></i></button>
-                    <button type="button" className="btn py-0 px-1"><i className="bi bi-x-square text-danger fs-5"></i></button>
+                    <button type="button" className="btn py-0 px-1">
+                      <i className="bi bi-pencil-square text-warning fs-5"></i>
+                    </button>
+                    <button type="button" className="btn py-0 px-1" onClick={() => deleteAlternative(item.id)}>
+                      <i className="bi bi-x-square text-danger fs-5"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -77,10 +112,11 @@ const Criteria = () => {
         <div className='d-flex justify-content-end'>
           <div className='d-flex gap-4 align-items-center'>
             <p className='mb-0'>Total : {total} %</p>
-            <button type="button" className="btn btn-success btn-sm">Tambah</button>
+            <button type="button" className="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addCriteria">Tambah</button>
           </div>
         </div>
       </div>
+      <AddCriteria func={getCriteria} />
     </div>
   )
 }

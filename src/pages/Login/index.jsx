@@ -45,7 +45,7 @@ const Login = () => {
         <form onSubmit={submitLogin} className="w-100 mt-4 px-5 pb-4 d-flex flex-column align-items-center border-bottom">
           <input type="email" name="email" className="form-control bg-secondary-subtle mb-3" placeholder="Email" required/>
           <input type="password" name="password" className="form-control bg-secondary-subtle mb-3" placeholder="Kata Sandi" required/>
-          <button type="submit" className="btn btn-primary w-50" disabled={isLoading}>{isLoading ? 'Proses' : 'Masuk'}</button>
+          <button type="submit" className="btn btn-primary w-50" disabled={isLoading}>{isLoading ? '....Proses' : 'Masuk'}</button>
         </form>
         <div className='d-flex mt-3 mb-5 gap-2'>
           <p className='fs-6 mb-0 fw-semibold'>Belum punya akun?</p>
