@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import api from '../../../../config/api'
 import Swal from 'sweetalert2'
-import AddAlternative from './addAlternative'
 import { useNavigate } from 'react-router-dom'
+import AddAlternative from './addAlternative'
+import UpdateAlternative from './updateAlternative'
 
 const Alternative = () => {
   const [alternative, setAlternative] = useState([])
+  const [id, setId] = useState(0)
+  const [title, setTitle] = useState('')
+
   const navigate = useNavigate()
 
   const getAlternative = async () => {
@@ -54,6 +58,11 @@ const Alternative = () => {
     }    
   }
 
+  function onClickUpdate (id, title) {
+    setId(id)
+    setTitle(title)
+  }
+
   useEffect(() => {
     getAlternative()
   },[])
@@ -70,7 +79,10 @@ const Alternative = () => {
                 <div className={`w-100 d-flex justify-content-between align-items-center py-1 border-bottom ${index==0 && 'border-top'}`}>
                   <p className='mb-0'>{item.title}</p>
                   <div className='d-flex gap-1'>
-                    <button type="button" className="btn py-0 px-1">
+                    <button type="button" className="btn py-0 px-1" 
+                      data-bs-toggle="modal" 
+                      data-bs-target="#updateAlternative"
+                      onClick={() => onClickUpdate(item.id, item.title)}>
                       <i className="bi bi-pencil-square text-warning fs-5"></i>
                     </button>
                     <button type="button" className="btn py-0 px-1" onClick={() => deleteAlternative(item.id)}>
@@ -95,6 +107,7 @@ const Alternative = () => {
       </div>
 
       <AddAlternative func={getAlternative} />
+      <UpdateAlternative func={getAlternative} id={id} title={title} />
     </div>
   )
 }
