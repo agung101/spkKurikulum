@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import api from '../../../../config/api'
 import Swal from 'sweetalert2'
@@ -12,6 +13,7 @@ const Criteria = () => {
   const navigate = useNavigate()
   const [id, setId] = useState(0)
   const [title, setTitle] = useState('')
+  const [isChecking, setIsChecking] = useState(false)
 
   const getCriteria = async () => {
     try {
@@ -88,6 +90,18 @@ const Criteria = () => {
   useEffect(() => {
     (criteria.length===0) ? getCriteria() : getWeight()    
   },[criteria])
+
+  useEffect(()=> {
+    if (total === 100) {      
+      setIsChecking(true)
+      const timeout = setTimeout(()=> {
+        console.log('request api')
+        setIsChecking(false)
+      }, 2000)
+      
+      return () => clearTimeout(timeout)
+    } else setIsChecking(false)
+  }, [total])
   
   return (
     <div style={{ width: '60%' }}>
@@ -127,10 +141,13 @@ const Criteria = () => {
             >*Total harus = 100%. Silahkan ubah bobot kriteria di atas</p>          
           </div>      
           <div className='d-flex align-items-center'>
-            { total===100 ? 
-              <i className="bi bi-check-circle text-success fs-5"></i> :
-              <i className="bi bi-x-circle text-danger fs-5"></i>
-            }            
+            
+            { isChecking ?
+              <div className="spinner-border spinner-border-sm text-primary" role="status"></div> :
+              total==100 ?
+                <i className="bi bi-check-circle text-success fs-5"></i> :
+                <i className="bi bi-x-circle text-danger fs-5"></i>
+            }
             <p className={'mb-0 ms-2 '+ (total===100 ? 'text-success fw-bold': 'text-danger fw-bold')}
             >Total : {total} %</p>
             <button type="button" className="btn btn-success btn-sm ms-4" 
