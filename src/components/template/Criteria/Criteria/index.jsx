@@ -38,6 +38,7 @@ const Criteria = () => {
     let result = 0
     arrWeight.forEach((item) => result += item)
     setTotal(result)
+    // setTotal(100)
   }
 
   const changeWeight = (e) => {
@@ -120,11 +121,21 @@ const Criteria = () => {
             ))
           }
         </div>
-        <div className='d-flex justify-content-end'>
-          <div className='d-flex gap-4 align-items-center'>
-            <p className='mb-0'>Total : {total} %</p>
-            <button type="button" className="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addCriteria">Tambah</button>
-          </div>
+        <div className='d-flex justify-content-between align-items-center'>
+          <div>
+            <p className={'mb-0 text-danger '+ (total===100? 'd-none':'')} style={{ fontSize: '.9rem' }}          
+            >*Total harus = 100%. Silahkan ubah bobot kriteria di atas</p>          
+          </div>      
+          <div className='d-flex align-items-center'>
+            { total===100 ? 
+              <i className="bi bi-check-circle text-success fs-5"></i> :
+              <i className="bi bi-x-circle text-danger fs-5"></i>
+            }            
+            <p className={'mb-0 ms-2 '+ (total===100 ? 'text-success fw-bold': 'text-danger fw-bold')}
+            >Total : {total} %</p>
+            <button type="button" className="btn btn-success btn-sm ms-4" 
+              data-bs-toggle="modal" data-bs-target="#addCriteria">Tambah</button>
+          </div>          
         </div>
       </div>
       <AddCriteria func={getCriteria} />
