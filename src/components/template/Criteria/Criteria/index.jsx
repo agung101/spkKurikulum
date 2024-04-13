@@ -3,12 +3,15 @@ import api from '../../../../config/api'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import AddCriteria from './addCriteria'
+import UpdateCriteria from './updateCriteria'
 
 const Criteria = () => {
   const [criteria, setCriteria] = useState([])
   const [weight, setWeight] = useState([])
   const [total, setTotal] = useState(0)
   const navigate = useNavigate()
+  const [id, setId] = useState(0)
+  const [title, setTitle] = useState('')
 
   const getCriteria = async () => {
     try {
@@ -45,7 +48,7 @@ const Criteria = () => {
     getTotal(newWeight)
   }
 
-  const deleteAlternative = async (id) => {
+  const deleteCriteria = async (id) => {
     const confirmed = await Swal.fire({
       title: 'Yakin ingin menghapus',
       icon: 'question',
@@ -76,6 +79,11 @@ const Criteria = () => {
     }    
   }
 
+  function clickUpdate (id, title) {
+    setId(id)
+    setTitle(title)
+  }
+
   useEffect(() => {
     (criteria.length===0) ? getCriteria() : getWeight()    
   },[criteria])
@@ -97,10 +105,13 @@ const Criteria = () => {
                         defaultValue={item.weight} name={'weight'+index} onChange={changeWeight} />
                       <span className="input-group-text" id="num">%</span>
                     </div>
-                    <button type="button" className="btn py-0 px-1">
+                    <button type="button" className="btn py-0 px-1"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#updateCriteria"
+                      onClick={() => clickUpdate(item.id, item.title)}>
                       <i className="bi bi-pencil-square text-warning fs-5"></i>
                     </button>
-                    <button type="button" className="btn py-0 px-1" onClick={() => deleteAlternative(item.id)}>
+                    <button type="button" className="btn py-0 px-1" onClick={() => deleteCriteria(item.id)}>
                       <i className="bi bi-x-square text-danger fs-5"></i>
                     </button>
                   </div>
@@ -117,6 +128,7 @@ const Criteria = () => {
         </div>
       </div>
       <AddCriteria func={getCriteria} />
+      <UpdateCriteria func={getCriteria} id={id} title={title} />
     </div>
   )
 }
