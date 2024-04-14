@@ -7,18 +7,23 @@ import AddCriteria from './addCriteria'
 import UpdateCriteria from './updateCriteria'
 
 const Criteria = () => {
-  const [criteria, setCriteria] = useState([])
-  const [weight, setWeight] = useState([])
+  const [criterias, setCriterias] = useState([])
+  const [weights, setWeights] = useState([])
   const [total, setTotal] = useState(0)
   const navigate = useNavigate()
   const [id, setId] = useState(0)
   const [title, setTitle] = useState('')
   const [isChecking, setIsChecking] = useState(false)
+  const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
+  const [ids, setIds] = useState([])
 
   const getCriteria = async () => {
     try {
       const result = await api.get('/criteria')
-      setCriteria(result.data.data)
+      const criteriaData = result.data.data
+      setCriterias(criteriaData)
+      const arrId = criteriaData.map((item) => item.id)
+      setIds(arrId)
     } catch(err) {
       if (err.message === 'Token expired') 
         navigate('/login')
@@ -31,8 +36,8 @@ const Criteria = () => {
   }
 
   const getWeight = () => {
-    let arrWeight = criteria.map((item) => item.weight)
-    setWeight(arrWeight)
+    let arrWeight = criterias.map((item) => item.weight)
+    setWeights(arrWeight)
     getTotal(arrWeight)
   }
 
@@ -40,14 +45,13 @@ const Criteria = () => {
     let result = 0
     arrWeight.forEach((item) => result += item)
     setTotal(result)
-    // setTotal(100)
   }
 
   const changeWeight = (e) => {
     const index = Number(e.target.name.slice(-1))
-    const newWeight = [...weight]
+    const newWeight = [...weights]
     newWeight[index] = Number(e.target.value)
-    setWeight(newWeight)
+    setWeights(newWeight)
     getTotal(newWeight)
   }
 
@@ -70,13 +74,13 @@ const Criteria = () => {
         await api.delete('/criteria/'+id)
         Swal.fire({
           icon: 'success',
-          title: 'Berhasil menghapus criteria'
+          title: 'Berhasil menghapus kriteria'
         })
         getCriteria()
       } catch(err) {
         Swal.fire({
           icon: 'error',
-          text: 'Gagal menghapus criteria'
+          text: 'Gagal menghapus kriteria'
         })
       }
     }    
@@ -87,16 +91,31 @@ const Criteria = () => {
     setTitle(title)
   }
 
+  const updateWeight = async () => {
+    const data = {
+      id:ids,
+      weight:weights
+    }
+    try {
+      await api.put('/criteria/batch-weight', data)
+      setIsChecking(false)
+    } catch(err) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Gagal perbarui bobot kriteria'
+      })
+    }
+  }
+
   useEffect(() => {
-    (criteria.length===0) ? getCriteria() : getWeight()    
-  },[criteria])
+    (criterias.length===0) ? getCriteria() : getWeight()    
+  },[criterias])
 
   useEffect(()=> {
     if (total === 100) {      
       setIsChecking(true)
-      const timeout = setTimeout(()=> {
-        console.log('request api')
-        setIsChecking(false)
+      const timeout = setTimeout( ()=> {
+        updateWeight()
       }, 2000)
       
       return () => clearTimeout(timeout)
@@ -109,15 +128,15 @@ const Criteria = () => {
         <h3 className='mb-3'>Kriteria & Bobot Relatif</h3>
         <div className='mb-3'>
           {
-            criteria?.map((item, index) => (
+            criterias?.map((item, index) => (
               <div key={index} className='d-flex align-items-center'>                    
                 <p className='mb-0 me-3'> • </p>
                 <div className={`w-100 d-flex justify-content-between align-items-center py-1 border-bottom ${index==0 && 'border-top'}`}>
                   <p className='mb-0'>{item.title}</p>
                   <div className='d-flex align-items-center gap-1'>
                     <div className="input-group input-group-sm pe-3" style={{ width:80 }}>
-                      <input type="text" className="form-control" aria-describedby="num" 
-                        defaultValue={item.weight} name={'weight'+index} onChange={changeWeight} />
+                      <input type="number" className="form-control" aria-describedby="num" 
+                        defaultValue={item.weight} name={'weight'+index} onChange={changeWeight} onKeyDown={blockInvalidChar} />
                       <span className="input-group-text" id="num">%</span>
                     </div>
                     <button type="button" className="btn py-0 px-1"
