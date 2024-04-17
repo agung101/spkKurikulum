@@ -145,7 +145,8 @@ const Criteria = () => {
                       onClick={() => clickUpdate(item.id, item.title)}>
                       <i className="bi bi-pencil-square text-warning fs-5"></i>
                     </button>
-                    <button type="button" className="btn py-0 px-1" onClick={() => deleteCriteria(item.id)}>
+                    <button type="button" className={'btn py-0 px-1 '+ (ids.length < 3 ? 'd-none' : '')} 
+                      onClick={() => deleteCriteria(item.id)}>
                       <i className="bi bi-x-square text-danger fs-5"></i>
                     </button>
                   </div>
@@ -170,7 +171,7 @@ const Criteria = () => {
             <p className={'mb-0 ms-2 '+ (total===100 ? 'text-success fw-bold': 'text-danger fw-bold')}
             >Total : {total} %</p>
             <button type="button" className="btn btn-success btn-sm ms-4" 
-              data-bs-toggle="modal" data-bs-target="#addCriteria">Tambah</button>
+              data-bs-toggle="modal" data-bs-target="#addCriteria" disabled={ids.length > 9 ? true : false}>Tambah</button>
           </div>          
         </div>
       </div>
