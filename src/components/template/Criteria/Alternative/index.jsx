@@ -99,13 +99,13 @@ const Alternative = () => {
           <button type="button" className="btn btn-success btn-sm mb-1" 
             data-bs-toggle="modal" 
             data-bs-target="#addAlternative" 
-            disabled={alternative.length > 4 ? true : false}>Tambah</button>
+            disabled={alternative.length > 3 ? true : false}>Tambah</button>
         </div>
       </div>
 
       <div className='border p-3'>
         <h3 className='mb-3'>Keterangan</h3>
-        <p>Alternatif adalah objek-objek yang berbeda dan memiliki kesempatan yang sama untuk dipilih oleh pengambil keputusan. <br /><span className='text-danger'>*minimal 2, maksimal 5</span></p>
+        <p>Alternatif adalah objek-objek yang berbeda dan memiliki kesempatan yang sama untuk dipilih oleh pengambil keputusan. <br /><span className='text-danger'>*minimal 2, maksimal 4</span></p>
         <p>Kriteria adalah ukuran yang menjadi dasar penilaian atau penetapan sesuatu. <br /> <span className='text-danger'>*minimal 2, maksimal 10</span></p>
         <p>Bobot relatif mencerminkan tingkat kepentingan dalam keputusan. <br /> <span className='text-danger'>*Pastikan total bobot semua kriteria sama dengan 100%.</span> </p>
       </div>

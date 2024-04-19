@@ -1,6 +1,59 @@
-import { alternative, criteria } from './data'
+// import { criteria } from './data'
+import { useEffect, useState } from 'react'
+import api from '../../config/api'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const Spk = () => {
+  const [alternatives, setAlternatives] = useState([])
+  const [criterias, setCriterias] = useState([])
+  const [weights, setWeights] = useState([])
+  const navigate = useNavigate()
+
+  const getAlternative = async () => {
+    try {
+      const result = await api.get('/alternative')
+      setAlternatives(result.data.data)
+    } catch(err) {
+      if (err.message === 'Token expired') 
+        navigate('/login')
+      else
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal mendapatkan data alternatif'
+        })
+    }
+  }
+
+  const getCriteria = async () => {
+    try {
+      const result = await api.get('/criteria')
+      const criteriaData = result.data.data
+      setCriterias(criteriaData)
+    } catch(err) {
+      if (err.message === 'Token expired') 
+        navigate('/login')
+      else
+        Swal.fire({
+          icon: 'error',
+          text: 'Gagal mendapatkan data kriteria'
+        })
+    }
+  }
+
+  const getWeight = () => {
+    let arrWeight = criterias.map((item) => item.weight)
+    setWeights(arrWeight)
+  }
+
+  useEffect(() => {
+    getAlternative()
+  },[])
+
+  useEffect(() => {
+    (criterias.length===0) ? getCriteria() : getWeight()    
+  },[criterias])
+
   return (
     <div className='p-4'>
       <div className='ms-2 mt-2'>
@@ -16,19 +69,19 @@ const Spk = () => {
           <tr>
             <th scope="col">Kriteria</th>
             {
-              alternative.map((item, index) => (
-                <th key={index} scope="col">{item}</th>
+              alternatives.map((item, index) => (
+                <th key={index} scope="col">{item.title}</th>
               ))
             }
           </tr>
         </thead>
         <tbody>
           {
-            criteria.map((item, row) => (
+            criterias.map((item, row) => (
               <tr key={row}>            
-                <td scope="row">{item}</td>            
+                <td scope="row">{item.title}</td>            
                 {
-                  alternative.map((item, index2) => (
+                  alternatives.map((item, index2) => (
                     <td key={index2}>
                       <input type="radio" className="btn-check" name={row+'alternative'+index2} id={'r'+row+'opt0a'+index2} autoComplete="off" defaultChecked/>
                       <label className="btn me-1" htmlFor={'r'+row+'opt0a'+index2}>0</label>
