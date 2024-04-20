@@ -49,10 +49,10 @@ const Criteria = () => {
 
   const changeWeight = (e) => {
     const index = Number(e.target.name.slice(-1))
-    const newWeight = [...weights]
-    newWeight[index] = Number(e.target.value)
-    setWeights(newWeight)
-    getTotal(newWeight)
+    const newWeights = [...weights]
+    newWeights[index] = Number(e.target.value)
+    setWeights(newWeights)
+    getTotal(newWeights)
   }
 
   const deleteCriteria = async (id) => {
