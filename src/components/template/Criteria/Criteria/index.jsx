@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import AddCriteria from './addCriteria'
 import UpdateCriteria from './updateCriteria'
+import confirmAlert from '../../../../helper/confirmAlert'
 
 const Criteria = () => {
   const [criterias, setCriterias] = useState([])
@@ -56,20 +57,7 @@ const Criteria = () => {
   }
 
   const deleteCriteria = async (id) => {
-    const confirmed = await Swal.fire({
-      title: 'Yakin ingin menghapus',
-      icon: 'question',
-      confirmButtonText: '<span style="margin: 0 10px">Ya</span>',
-      confirmButtonColor: '#3085d6',
-      showCancelButton: true,
-      cancelButtonText: 'Tidak',
-      cancelButtonColor: '#d33',
-      reverseButtons: true,
-    }).then((result) => {
-      return result.isConfirmed
-    })
-
-    if (confirmed) {
+    if (await confirmAlert('Yakin ingin menghapus')) {
       try {
         await api.delete('/criteria/'+id)
         Swal.fire({

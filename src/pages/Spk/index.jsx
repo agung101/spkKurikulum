@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import api from '../../config/api'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import confirmAlert from '../../helper/confirmAlert'
 
 const Spk = () => {
   const [alternatives, setAlternatives] = useState([])
@@ -63,6 +64,12 @@ const Spk = () => {
     setValues(newValues)
   }
 
+  const submitWeights = async (e) => {
+    e.preventDefault()
+    if (await confirmAlert('Apakah bobot yang anda masukan sudah benar')) {
+      console.log(values)
+    }
+  }
 
   useEffect(() => {
     getAlternative()
@@ -82,7 +89,7 @@ const Spk = () => {
         <p className='mb-0'>2 : Baik</p>
         <p className='mb-4'>3 : Sangat Baik</p>
       </div>
-      <form >
+      <form onSubmit={submitWeights} >
         <table className="table">
           <thead>
             <tr>
@@ -126,7 +133,7 @@ const Spk = () => {
           </tbody>
         </table>
         <div className='d-flex justify-content-center mb-5 pt-4'>
-          <button type="button" className="btn btn-outline-primary btn-lg">Hitung SPK</button>
+          <button type="submit" className="btn btn-outline-primary btn-lg">Hitung SPK</button>
         </div>
       </form>
     </div>
