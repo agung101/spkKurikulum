@@ -58,16 +58,31 @@ const Spk = () => {
     setWeights(arrWeight)
   }
 
-  function updateValues(event, i, j) {
+  function updateValues(e, i, j) {
     const newValues = [...values]
-    newValues[i][j] = event.target.value
+    newValues[i][j] = Number(e.target.value)
     setValues(newValues)
   }
 
   const submitWeights = async (e) => {
     e.preventDefault()
     if (await confirmAlert('Apakah bobot yang anda masukan sudah benar')) {
-      console.log(values)
+      let newValues = [...values]
+      let temp
+      let total = []
+      for(let i = 0; i < alternatives.length;i++)
+        total[i] = 0
+      
+      weights.forEach((item, index) => {
+        for(let i = 0; i < alternatives.length;i++){
+          temp = newValues[index][i] * (item / 100)
+          temp = Number((Math.round(temp * 100) / 100).toFixed(2))
+          newValues[index][i] = temp
+          // console.log(`[${index}] [${i}] = `+ newValues[index][i])
+        }
+      })
+      // console.log(newValues)
+      console.log(total)
     }
   }
 
@@ -114,15 +129,15 @@ const Spk = () => {
                         <label className="btn me-1" htmlFor={'r'+row+'opt0a'+index2}>0</label>
 
                         <input type="radio" className="btn-check" id={'r'+row+'opt1a'+index2} autoComplete="off" 
-                          name={'criteria'+row+'alternative'+index2} value={1} onChange={(e) => updateValues(e, row, index2)}/>
+                          name={'criteria'+row+'alternative'+index2} value={1} onChange={(event) => updateValues(event, row, index2)}/>
                         <label className="btn me-1" htmlFor={'r'+row+'opt1a'+index2}>1</label>
 
                         <input type="radio" className="btn-check" id={'r'+row+'opt2a'+index2} autoComplete="off" 
-                          name={'criteria'+row+'alternative'+index2} value={2} onChange={(e) => updateValues(e, row, index2)}/>                      
+                          name={'criteria'+row+'alternative'+index2} value={2} onChange={(event) => updateValues(event, row, index2)}/>                      
                         <label className="btn me-1" htmlFor={'r'+row+'opt2a'+index2}>2</label>
 
                         <input type="radio" className="btn-check" id={'r'+row+'opt3a'+index2} autoComplete="off" 
-                          name={'criteria'+row+'alternative'+index2} value={3} onChange={(e) => updateValues(e, row, index2)}/>
+                          name={'criteria'+row+'alternative'+index2} value={3} onChange={(event) => updateValues(event, row, index2)}/>
                         <label className="btn me-1" htmlFor={'r'+row+'opt3a'+index2}>3</label>
                       </td>
                     ))
