@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-// import React from 'react'
-
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import Login from './pages/Login'
@@ -9,7 +7,7 @@ import Pages from './pages'
 import Home from './pages/Home'
 import AlternativeCriteria from './pages/AlternativeCriteria'
 import Spk from './pages/Spk'
-import CalculationResult from './pages/CalculationResult'
+import Result from './pages/Result'
 
 const PrivateRoute = ({children}) => {  
   const token = localStorage.getItem('token')
@@ -58,7 +56,7 @@ const router = () => {
           <Route index element={<Home />} />
           <Route path="criteria" element={<AlternativeCriteria />} />
           <Route path="spk" element={<Spk />} />
-          <Route path="result" element={<CalculationResult />} />
+          <Route path="result" element={<Result />} />
         </Route>
       </Routes>
     </BrowserRouter>
