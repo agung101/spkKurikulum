@@ -67,7 +67,7 @@ const Spk = () => {
     e.preventDefault()
     if (await confirmAlert('Apakah bobot yang anda masukan sudah benar')) {
       // Inisialisasi variabel yang dibutuhkan
-      let newValues = [...values]
+      let resultsPerCriteria = [...values.map(innerArray => [...innerArray])]
       let temp
       let total = []
       for(let i = 0; i < alternatives.length;i++)
@@ -77,19 +77,22 @@ const Spk = () => {
       // & Total Bobot Semua Kriteria per Alternatif (bobot1+bobot2+bobot3+...)
       weights.forEach((item, index) => {
         for(let i = 0; i < alternatives.length;i++){
-          temp = newValues[index][i] * (item / 100)
+          temp = resultsPerCriteria[index][i] * (item / 100)
           temp = Number((Math.round(temp * 100) / 100).toFixed(2))
-          newValues[index][i] = temp
+          resultsPerCriteria[index][i] = temp
           total[i] += temp 
         }
       })
 
       // Merapikan dan Mengurutkan Hasil Perhitungan
-      let result = alternatives.map((item, index) => (
+      let results = alternatives.map((item, index) => (
         { title:item.title, total: total[index] }
       ))
-      result.sort((a, b) => b.total - a.total)
-      navigate('/result', { state: { result }})
+      results.sort((a, b) => b.total - a.total)
+      const alternative = alternatives.map((item) => item.title)
+      const criteria = criterias.map((item) => item.title)
+      navigate('/result', { state: { 
+        results, total, alternative, criteria, weights, dynamicWeights: values, resultsPerCriteria }})
     }
   }
 
