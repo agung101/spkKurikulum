@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../../../config/api'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import AddCriteria from './addCriteria'
 import UpdateCriteria from './updateCriteria'
 import confirmAlert from '../../../../helper/confirmAlert'
@@ -17,6 +17,7 @@ const Criteria = () => {
   const [isChecking, setIsChecking] = useState(false)
   const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
   const [ids, setIds] = useState([])
+  const [nextBtn, setNextBtn] = useState(false)
 
   const getCriteria = async () => {
     try {
@@ -100,12 +101,11 @@ const Criteria = () => {
   },[criterias])
 
   useEffect(()=> {
+    setNextBtn(false)
     if (total === 100) {      
       setIsChecking(true)
-      const timeout = setTimeout( ()=> {
-        updateWeight()
-      }, 2000)
-      
+      const timeout = setTimeout(() => updateWeight(), 2000)
+      setTimeout(() => setNextBtn(true), 3000)
       return () => clearTimeout(timeout)
     } else setIsChecking(false)
   }, [total])
@@ -162,6 +162,16 @@ const Criteria = () => {
               data-bs-toggle="modal" data-bs-target="#addCriteria" disabled={ids.length > 9 ? true : false}>Tambah</button>
           </div>          
         </div>
+      </div>
+      <div className='d-flex justify-content-between mt-5'>
+        <Link to='/' className='btn btn-secondary btn-sm'
+        ><i className="bi bi-arrow-left-circle me-1"></i> Kembali</Link>
+        {
+          nextBtn && 
+          <Link to='/spk' className='btn btn-primary btn-sm'
+          >Lanjut <i className="bi bi-arrow-right-circle ms-1"></i></Link>
+
+        }
       </div>
       <AddCriteria func={getCriteria} />
       <UpdateCriteria func={getCriteria} id={id} title={title} />

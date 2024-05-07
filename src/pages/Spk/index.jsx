@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
 import Swal from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import confirmAlert from '../../helper/confirmAlert'
 
 const Spk = () => {
@@ -112,8 +112,13 @@ const Spk = () => {
         <p className='mb-0'>0 : Sangat Buruk</p>
         <p className='mb-0'>1 : Buruk</p>
         <p className='mb-0'>2 : Baik</p>
-        <p className='mb-4'>3 : Sangat Baik</p>
+        <p className='mb-3'>3 : Sangat Baik</p>
       </div>
+      <div className='d-flex mb-5'>
+        <Link to='/criteria' className='btn btn-secondary btn-sm'
+        ><i className="bi bi-arrow-left-circle me-1"></i> Kembali</Link>
+      </div>
+
       <form onSubmit={submitWeights} >
         <table className="table">
           <thead>
