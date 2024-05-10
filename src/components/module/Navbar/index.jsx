@@ -19,7 +19,7 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
           <div className="navbar-nav gap-3">
-            <Link to="/" className={'nav-link fs-5 fw-semibold '+ ((path === '/') && 'active')}>Home</Link>
+            <Link to="/" className={'nav-link fs-5 fw-semibold '+ ((path === '/') && 'active')}>Beranda</Link>
             <Link to="/criteria" className={'nav-link fs-5 fw-semibold '+ ((path === '/criteria') && 'active')}>Kriteria</Link>
             <Link to="/spk" className={'nav-link fs-5 fw-semibold '+ ((path === '/spk') && 'active')}>SPK</Link>
           </div>
